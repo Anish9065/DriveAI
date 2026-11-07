@@ -4,7 +4,7 @@ DriveAI — Software Requirements Specification (SRS) & Engineering Technical Re
 Document Reference: LPU/CSE/NOSQL/2025/CA2/SRS-494-0984
 Authored by: Anish Kumar (Registration No: 12326669)
 Course: Intelligent NoSQL Database
-Continuous Assessment 2, Spring 2025
+Continuous Assessment 2
 Exact Length: 30 Pages Publication Specification
 """
 
@@ -564,9 +564,8 @@ def generate_document_pass(page_map=None, tracker=None):
     pdf.draw_text(cx, 360, "Anish Kumar", font='Times-Bold', size=13.5, align='center')
     pdf.draw_text(cx, 327, "Registration Number: 12326669", font='Times-Bold', size=13.5, align='center')
 
-    pdf.draw_text(cx, 165, "Prepared for", font='Times-Roman', size=11.5, align='center')
-    pdf.draw_text(cx, 147, "Continuous Assessment 2", font='Times-Roman', size=11.5, align='center')
-    pdf.draw_text(cx, 129, "Spring 2025", font='Times-Roman', size=11.5, align='center')
+    pdf.draw_text(cx, 155, "Prepared for", font='Times-Roman', size=11.5, align='center')
+    pdf.draw_text(cx, 137, "Continuous Assessment 2", font='Times-Roman', size=11.5, align='center')
     pdf.end_page()
 
     # =========================================================================
@@ -1808,7 +1807,7 @@ def generate_document_pass(page_map=None, tracker=None):
         "Project Topic: Autonomous Vehicle Motion Planning and Kinodynamic Control in Unstructured Rural Environments.\n"
         "Approved by: Academic Project Evaluation Committee & Autonomous Driving Systems Research Faculty.\n"
         "Approval Reference: LPU/CSE/NOSQL/2025/CA2/APPROVAL-494-0984\n"
-        "Status: FORMALLY APPROVED AND CERTIFIED for Continuous Assessment 2, Spring 2025."
+        "Status: FORMALLY APPROVED AND CERTIFIED for Continuous Assessment 2."
     )
 
     doc.heading_1("8. Client Location Proof", "SEC_8")
@@ -1822,7 +1821,7 @@ def generate_document_pass(page_map=None, tracker=None):
     doc.paragraph(
         "Academic Project Registration & Evaluation Transaction ID:\n"
         "Transaction ID: TXN-SIH-2025-LPU-CSE494-12326669\n"
-        "Payment / Registration Reference: LPU-ACAD-FEE-VERIFIED-2025-SPRING."
+        "Payment / Registration Reference: LPU-ACAD-FEE-VERIFIED-2025."
     )
 
     doc.heading_1("10. Email Acknowledgement", "SEC_10")
