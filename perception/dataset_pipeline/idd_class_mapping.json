@@ -1,0 +1,43 @@
+{
+  "classes": [
+    "car",
+    "bus",
+    "truck",
+    "auto_rickshaw",
+    "two_wheeler",
+    "bicycle",
+    "pedestrian",
+    "pushcart",
+    "cattle"
+  ],
+  "class_descriptions": {
+    "car": "Standard passenger automobiles and cabs",
+    "bus": "Public and private transit buses",
+    "truck": "Medium and heavy transport trucks, lorries",
+    "auto_rickshaw": "Three-wheeled passenger/cargo auto-rickshaws (Tuk-Tuk)",
+    "two_wheeler": "Motorcycles, scooters, and mopeds with rider(s)",
+    "bicycle": "Bicycles and cycle-rickshaws",
+    "pedestrian": "People walking, crossing, or standing on road/sidewalk",
+    "pushcart": "Hand-pushed carts, vegetable vendor carts, wooden carts",
+    "cattle": "Cows, bullocks, stray cattle, and large animals on roads"
+  },
+  "idd_raw_mapping": {
+    "car": "car",
+    "bus": "bus",
+    "truck": "truck",
+    "autorickshaw": "auto_rickshaw",
+    "auto": "auto_rickshaw",
+    "motorcycle": "two_wheeler",
+    "rider": "two_wheeler",
+    "two wheeler": "two_wheeler",
+    "bicycle": "bicycle",
+    "person": "pedestrian",
+    "pedestrian": "pedestrian",
+    "hand cart": "pushcart",
+    "pushcart": "pushcart",
+    "cart": "pushcart",
+    "animal": "cattle",
+    "cattle": "cattle",
+    "dog": "cattle"
+  }
+}

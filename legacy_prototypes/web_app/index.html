@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SIH AV Mission Control & Digital Twin | Unstructured Indian Road Navigation</title>
+  <meta name="description" content="Adaptive Path Planning and Perception Mission Control Dashboard for Autonomous Driving in Unstructured Indian Road Conditions (SIH).">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Background Glow & Grid -->
+  <div class="cyber-grid"></div>
+  <div class="glow-orb orb-1"></div>
+  <div class="glow-orb orb-2"></div>
+
+  <!-- Header Banner -->
+  <header class="app-header">
+    <div class="header-left">
+      <div class="logo-badge">
+        <span class="logo-icon">🚗⚡</span>
+        <div class="logo-text">
+          <h1>NAV-BHARAT AV DIGITAL TWIN</h1>
+          <p class="subtitle">Smart India Hackathon • Adaptive Path Planning & Multi-Sensor Fusion</p>
+        </div>
+      </div>
+      <div class="status-pill status-live">
+        <span class="live-dot"></span>
+        <span>SYSTEM ONLINE (60 FPS)</span>
+      </div>
+    </div>
+
+    <div class="header-center">
+      <div class="quick-metric">
+        <span class="metric-label">CONTROLLER</span>
+        <span class="metric-val text-cyan">Stanley + Cascaded PID</span>
+      </div>
+      <div class="metric-divider"></div>
+      <div class="quick-metric">
+        <span class="metric-label">PLANNER</span>
+        <span class="metric-val text-amber">Frenet Quintic Opt</span>
+      </div>
+      <div class="metric-divider"></div>
+      <div class="quick-metric">
+        <span class="metric-label">PERCEPTION AI</span>
+        <span class="metric-val text-emerald">YOLOv8 + IDD 9-Class</span>
+      </div>
+    </div>
+
+    <div class="header-right">
+      <div class="playback-controls">
+        <button id="btn-play-pause" class="btn btn-primary" title="Play or Pause Simulation">
+          <span id="play-pause-icon">⏸</span> <span id="play-pause-text">PAUSE</span>
+        </button>
+        <button id="btn-reset" class="btn btn-secondary" title="Reset Simulation">
+          <span>🔄</span> <span>RESET</span>
+        </button>
+      </div>
+      <div class="speed-toggle">
+        <button class="btn-speed active" data-speed="1.0">1.0x</button>
+        <button class="btn-speed" data-speed="1.5">1.5x</button>
+        <button class="btn-speed" data-speed="2.0">2.0x</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Emergency Braking (AEB) Master Banner -->
+  <div id="aeb-alert-banner" class="aeb-banner aeb-safe">
+    <div class="aeb-icon">🛡️</div>
+    <div class="aeb-message">
+      <strong id="aeb-status-text">AEB STATUS: NOMINAL • SAFE CLEARANCE</strong>
+      <span id="aeb-subtext">Trajectory clearance within safe deceleration buffer (TTC > 3.0s)</span>
+    </div>
+    <div class="aeb-ttc">
+      <span class="ttc-label">TIME-TO-COLLISION</span>
+      <span id="aeb-ttc-val" class="ttc-val">-- s</span>
+    </div>
+  </div>
+
+  <!-- Main Grid Layout -->
+  <main class="dashboard-grid">
+    <!-- LEFT PANEL: DUAL VIEWPORTS (BEV Digital Twin & Camera Perception) -->
+    <section class="viewport-section glass-card">
+      <div class="viewport-header">
+        <div class="tab-group">
+          <button id="tab-bev" class="tab-btn active" data-tab="bev-view">
+            <span>🗺️ Bird's Eye View (BEV) Digital Twin</span>
+            <span class="badge badge-accent">Trajectory Optimizer</span>
+          </button>
+          <button id="tab-camera" class="tab-btn" data-tab="camera-view">
+            <span>📷 Forward Perception Camera</span>
+            <span class="badge badge-ai">YOLOv8 IDD Overlay</span>
+          </button>
+        </div>
+
+        <div class="viewport-actions">
+          <div class="sensor-toggles">
+            <label class="toggle-pill" title="Toggle LiDAR 360 Scan">
+              <input type="checkbox" id="toggle-lidar" checked>
+              <span>LiDAR</span>
+            </label>
+            <label class="toggle-pill" title="Toggle Radar Cones">
+              <input type="checkbox" id="toggle-radar" checked>
+              <span>Radar</span>
+            </label>
+            <label class="toggle-pill" title="Toggle Frenet Candidate Ribbons">
+              <input type="checkbox" id="toggle-candidates" checked>
+              <span>Frenet Ribbons</span>
+            </label>
+            <label class="toggle-pill" title="Toggle Road Boundary Bounds">
+              <input type="checkbox" id="toggle-boundaries" checked>
+              <span>Corridor</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- VIEWPORT 1: BEV CANVAS -->
+      <div id="bev-view" class="tab-content active">
+        <div class="canvas-container">
+          <canvas id="bev-canvas"></canvas>
+          <div class="bev-overlay-hud">
+            <div class="hud-item">
+              <span class="hud-label">ROAD LENGTH</span>
+              <span class="hud-value" id="hud-road-progress">0.0 / 120 m</span>
+            </div>
+            <div class="hud-item">
+              <span class="hud-label">CORRIDOR WIDTH</span>
+              <span class="hud-value">7.0 m (±3.5m)</span>
+            </div>
+            <div class="hud-item">
+              <span class="hud-label">CLICK ROAD TO</span>
+              <span class="hud-value text-accent">Drop Obstacle 🎯</span>
+            </div>
+          </div>
+
+          <!-- Interactive Obstacle Spawn Tool -->
+          <div class="canvas-toolbar">
+            <span class="toolbar-label">Spawn on Click:</span>
+            <button class="tool-btn active" data-tool="cow" title="Spawn Stray Cattle">🐂 Cattle</button>
+            <button class="tool-btn" data-tool="rickshaw" title="Spawn Auto-Rickshaw">🛺 Auto</button>
+            <button class="tool-btn" data-tool="pedestrian" title="Spawn Pedestrian">🚶 Pedestrian</button>
+            <button class="tool-btn" data-tool="pothole" title="Spawn Pothole Hazard">🕳️ Pothole</button>
+            <button class="tool-btn" data-tool="barricade" title="Spawn V-Barricade">🚧 Barricade</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- VIEWPORT 2: FORWARD CAMERA PERCEPTION VIEW -->
+      <div id="camera-view" class="tab-content">
+        <div class="camera-container">
+          <canvas id="camera-canvas"></canvas>
+          <div class="camera-ai-hud">
+            <div class="ai-chip">
+              <span class="ai-dot"></span>
+              <span>MODEL: YOLOv8-IDD (ONNX FP16)</span>
+            </div>
+            <div class="ai-chip">
+              <span>LATENCY: 14.8 ms (67 FPS)</span>
+            </div>
+            <div class="ai-chip">
+              <span>DRIVABLE SEGMENTATION: ACTIVE</span>
+            </div>
+          </div>
+          <div class="camera-source-selector">
+            <label>Input Feed:</label>
+            <select id="camera-feed-select" class="dropdown-select">
+              <option value="simulated">Simulated Indian Traffic Corridor (Live AI Sync)</option>
+              <option value="webcam">Live Laptop Webcam Feed</option>
+              <option value="market">Urban Market / Rickshaw Rush Hour</option>
+              <option value="rural">Village Road with Stray Cattle</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Trajectory & Frenet Candidate Legend -->
+      <div class="viewport-footer">
+        <div class="legend-item">
+          <span class="legend-color legend-ego"></span>
+          <span>Ego Vehicle (Tata Nexon EV)</span>
+        </div>
+        <div class="legend-item">
+          <span class="legend-color legend-optimal"></span>
+          <span>Optimal Trajectory (Jerk-Minimizing)</span>
+        </div>
+        <div class="legend-item">
+          <span class="legend-color legend-candidates"></span>
+          <span>Sampled Frenet Candidates (Werling)</span>
+        </div>
+        <div class="legend-item">
+          <span class="legend-color legend-obstacles"></span>
+          <span>Indian Obstacles (Dynamic Bounding Radius)</span>
+        </div>
+        <div class="legend-item">
+          <span class="legend-color legend-boundary"></span>
+          <span>Road Boundary (Strict Edge Limits)</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- RIGHT PANEL: COCKPIT TELEMETRY, SCENARIO MANAGER & SENSOR FUSION -->
+    <aside class="telemetry-panel">
+      <!-- 1. DRIVER COCKPIT GAUGES -->
+      <div class="cockpit-card glass-card">
+        <h3 class="panel-title">
+          <span>⚡ VEHICLE DYNAMICS & CONTROL HUD</span>
+        </h3>
+        
+        <div class="gauges-row">
+          <!-- Speedometer -->
+          <div class="gauge-box">
+            <div class="radial-gauge" id="speed-radial">
+              <svg viewBox="0 0 120 120" class="gauge-svg">
+                <circle cx="60" cy="60" r="48" class="gauge-track"></circle>
+                <circle cx="60" cy="60" r="48" class="gauge-fill" id="speed-arc"></circle>
+              </svg>
+              <div class="gauge-center">
+                <span class="gauge-val" id="val-speed">0.0</span>
+                <span class="gauge-unit">km/h</span>
+              </div>
+            </div>
+            <span class="gauge-caption">Target: <strong id="val-target-speed">30.0</strong> km/h</span>
+          </div>
+
+          <!-- Steering Wheel Indicator -->
+          <div class="gauge-box">
+            <div class="steering-wheel-wrapper">
+              <div class="steering-wheel-disc" id="steering-wheel">
+                <div class="steering-rim"></div>
+                <div class="steering-spoke horizontal"></div>
+                <div class="steering-spoke vertical"></div>
+                <div class="steering-hub">⚡</div>
+              </div>
+            </div>
+            <div class="steering-caption">
+              <span class="gauge-val" id="val-steer">0.0°</span>
+              <span class="gauge-unit">Stanley Steering</span>
+            </div>
+          </div>
+
+          <!-- Throttle / Brake Pedals -->
+          <div class="pedals-box">
+            <div class="pedal-bar-wrap">
+              <span class="pedal-tag">THR</span>
+              <div class="pedal-track">
+                <div class="pedal-fill throttle-fill" id="throttle-fill"></div>
+              </div>
+              <span class="pedal-pct" id="throttle-pct">0%</span>
+            </div>
+            <div class="pedal-bar-wrap">
+              <span class="pedal-tag">BRK</span>
+              <div class="pedal-track">
+                <div class="pedal-fill brake-fill" id="brake-fill"></div>
+              </div>
+              <span class="pedal-pct" id="brake-pct">0%</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Telemetry Data Grid -->
+        <div class="telemetry-stats-grid">
+          <div class="stat-cell">
+            <span class="stat-label">Cross-Track Err (e_fa)</span>
+            <span class="stat-value text-cyan" id="stat-cte">0.00 m</span>
+          </div>
+          <div class="stat-cell">
+            <span class="stat-label">Heading Error (ψ_e)</span>
+            <span class="stat-value text-cyan" id="stat-yaw-err">0.0°</span>
+          </div>
+          <div class="stat-cell">
+            <span class="stat-label">Lateral Accel (a_y)</span>
+            <span class="stat-value text-amber" id="stat-lat-accel">0.02 m/s²</span>
+          </div>
+          <div class="stat-cell">
+            <span class="stat-label">Frenet s / d</span>
+            <span class="stat-value text-emerald" id="stat-frenet">s: 0.0m | d: 0.0m</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. SCENARIO SELECTOR (INDIAN ROAD BENCHMARKS) -->
+      <div class="scenario-card glass-card">
+        <h3 class="panel-title">
+          <span>🚦 INDIAN ROAD SCENARIO BENCHMARKS</span>
+        </h3>
+        <p class="scenario-hint">Select unstructured road scenarios to evaluate adaptive avoidance in real-time:</p>
+        
+        <div class="scenario-grid">
+          <button class="scenario-btn active" data-scenario="cattle">
+            <div class="scenario-icon">🐂</div>
+            <div class="scenario-info">
+              <strong>1. Stray Cattle on Curve</strong>
+              <span>Blind corner cow evasion within strict road corridor</span>
+            </div>
+          </button>
+
+          <button class="scenario-btn" data-scenario="rickshaw">
+            <div class="scenario-icon">🛺</div>
+            <div class="scenario-info">
+              <strong>2. Slow Auto-Rickshaw Overtake</strong>
+              <span>Dynamic lane deviation & safe corridor return</span>
+            </div>
+          </button>
+
+          <button class="scenario-btn" data-scenario="pedestrian">
+            <div class="scenario-icon">🚶</div>
+            <div class="scenario-info">
+              <strong>3. Sudden Pedestrian Jaywalk</strong>
+              <span>Autonomous emergency stop (AEB) with TTC buffer</span>
+            </div>
+          </button>
+
+          <button class="scenario-btn" data-scenario="potholes">
+            <div class="scenario-icon">🕳️</div>
+            <div class="scenario-info">
+              <strong>4. Potholes & Construction V-Barricade</strong>
+              <span>Smooth s-curve weave around road surface defects</span>
+            </div>
+          </button>
+        </div>
+      </div>
+
+      <!-- 3. MULTI-SENSOR FUSION TRACK TABLE -->
+      <div class="fusion-card glass-card">
+        <div class="fusion-header">
+          <h3 class="panel-title">
+            <span>📡 ACTIVE TRACKED OBJECT LIST (SENSOR FUSION)</span>
+          </h3>
+          <span class="tracker-type badge badge-accent">trackerGNN 3D Constant Velocity</span>
+        </div>
+        
+        <div class="table-container">
+          <table class="fusion-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Class</th>
+                <th>Dist (m)</th>
+                <th>Rel Spd</th>
+                <th>Sensors</th>
+                <th>Threat</th>
+              </tr>
+            </thead>
+            <tbody id="fusion-table-body">
+              <!-- Dynamically populated via app.js -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <!-- Script Modules -->
+  <script src="app.js"></script>
+</body>
+</html>

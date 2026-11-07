@@ -1,0 +1,26 @@
+# ==============================================================================
+# DriveAI — Intelligent Driving & Road Simulation System
+# Python Dependencies
+# ==============================================================================
+# Install with:
+#     pip install -r driveai/requirements.txt
+# (Or use the root requirements.txt for complete project dependencies)
+# ==============================================================================
+
+# Core Web Application Server
+fastapi>=0.100.0
+uvicorn[standard]>=0.22.0
+pydantic>=2.0.0
+
+# Computer Vision & Real-time Inference
+opencv-python>=4.8.0
+numpy>=1.24.0
+Pillow>=10.0.0
+
+# Deep Learning Model Adapter (YOLOv8 / PyTorch)
+ultralytics>=8.0.0
+torch>=2.0.0
+torchvision>=0.15.0
+
+# Database & Telemetry (MongoDB with SQLite Fallback)
+pymongo>=4.5.0

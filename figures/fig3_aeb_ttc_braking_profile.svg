@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 420" width="900" height="420" style="background:#0b0f19; font-family:'Inter',system-ui,sans-serif;">
+  <text x="450.0" y="32" fill="#f8fafc" font-size="16" font-weight="700" text-anchor="middle">FIGURE 3: Longitudinal Autonomous Emergency Braking (AEB) Deceleration Dynamics</text>
+  <text x="450.0" y="50" fill="#94a3b8" font-size="12" text-anchor="middle">Dual-Stage Trigger: Pre-Crash Braking (TTC &lt; 2.2s) &amp; Critical Emergency Stop (TTC &lt; 1.1s)</text>
+
+  <rect x="80" y="60" width="770" height="300" fill="#0f172a" stroke="#1e293b" stroke-width="1.5"/>
+
+  <!-- Trigger Stage Shading -->
+  <rect x="199.77777777777777" y="60" width="119.77777777777779" height="300" fill="rgba(245, 158, 11, 0.08)"/>
+  <rect x="319.55555555555554" y="60" width="325.1111111111111" height="300" fill="rgba(239, 68, 68, 0.12)"/>
+
+  <!-- Curves -->
+  <path d="M80.0,110.2 L88.6,110.2 L97.1,110.2 L105.7,110.2 L114.2,110.2 L122.8,110.2 L131.3,110.2 L139.9,110.2 L148.4,110.2 L157.0,110.2 L165.6,110.2 L174.1,110.2 L182.7,110.2 L191.2,110.2 L199.8,113.8 L208.3,117.4 L216.9,121.0 L225.4,124.6 L234.0,128.2 L242.6,131.8 L251.1,135.4 L259.7,139.0 L268.2,142.6 L276.8,146.2 L285.3,149.8 L293.9,153.4 L302.4,157.0 L311.0,160.6 L319.6,167.3 L328.1,174.1 L336.7,180.8 L345.2,187.6 L353.8,194.3 L362.3,201.1 L370.9,207.8 L379.4,214.6 L388.0,221.3 L396.6,228.1 L405.1,234.8 L413.7,241.6 L422.2,248.3 L430.8,255.1 L439.3,261.8 L447.9,268.6 L456.4,275.3 L465.0,282.1 L473.6,288.8 L482.1,295.6 L490.7,302.3 L499.2,309.1 L507.8,315.8 L516.3,322.6 L524.9,329.3 L533.4,336.1 L542.0,342.8 L550.6,349.6 L559.1,356.3 L567.7,360.0 L576.2,360.0 L584.8,360.0 L593.3,360.0 L601.9,360.0 L610.4,360.0 L619.0,360.0 L627.6,360.0 L636.1,360.0 L644.7,360.0 L653.2,360.0 L661.8,360.0 L670.3,360.0 L678.9,360.0 L687.4,360.0 L696.0,360.0 L704.6,360.0 L713.1,360.0 L721.7,360.0 L730.2,360.0 L738.8,360.0 L747.3,360.0 L755.9,360.0 L764.4,360.0 L773.0,360.0 L781.6,360.0 L790.1,360.0 L798.7,360.0 L807.2,360.0 L815.8,360.0 L824.3,360.0 L832.9,360.0 L841.4,360.0 L850.0,360.0" fill="none" stroke="#38bdf8" stroke-width="2.8"/>
+  <path d="M80.0,93.3 L88.6,93.3 L97.1,93.3 L105.7,93.3 L114.2,93.3 L122.8,93.3 L131.3,93.3 L139.9,93.3 L148.4,93.3 L157.0,93.3 L165.6,93.3 L174.1,93.3 L182.7,93.3 L191.2,93.3 L199.8,226.7 L208.3,226.7 L216.9,226.7 L225.4,226.7 L234.0,226.7 L242.6,226.7 L251.1,226.7 L259.7,226.7 L268.2,226.7 L276.8,226.7 L285.3,226.7 L293.9,226.7 L302.4,226.7 L311.0,226.7 L319.6,343.3 L328.1,343.3 L336.7,343.3 L345.2,343.3 L353.8,343.3 L362.3,343.3 L370.9,343.3 L379.4,343.3 L388.0,343.3 L396.6,343.3 L405.1,343.3 L413.7,343.3 L422.2,343.3 L430.8,343.3 L439.3,343.3 L447.9,343.3 L456.4,343.3 L465.0,343.3 L473.6,343.3 L482.1,343.3 L490.7,343.3 L499.2,343.3 L507.8,343.3 L516.3,343.3 L524.9,343.3 L533.4,343.3 L542.0,343.3 L550.6,343.3 L559.1,343.3 L567.7,343.3 L576.2,343.3 L584.8,343.3 L593.3,343.3 L601.9,343.3 L610.4,343.3 L619.0,343.3 L627.6,343.3 L636.1,343.3 L644.7,343.3 L653.2,343.3 L661.8,343.3 L670.3,343.3 L678.9,343.3 L687.4,343.3 L696.0,343.3 L704.6,343.3 L713.1,343.3 L721.7,343.3 L730.2,343.3 L738.8,343.3 L747.3,343.3 L755.9,343.3 L764.4,343.3 L773.0,343.3 L781.6,343.3 L790.1,343.3 L798.7,343.3 L807.2,343.3 L815.8,343.3 L824.3,343.3 L832.9,343.3 L841.4,343.3 L850.0,343.3" fill="none" stroke="#f43f5e" stroke-width="2.5" stroke-dasharray="6,3"/>
+
+  <!-- Stage Labels -->
+  <text x="139.88888888888889" y="85" fill="#64748b" font-size="11" text-anchor="middle">Nominal Cruising</text>
+  <text x="259.66666666666663" y="85" fill="#fbbf24" font-size="11" font-weight="600" text-anchor="middle">Stage 1: TTC &lt; 2.2s</text>
+  <text x="473.55555555555554" y="85" fill="#f87171" font-size="11" font-weight="700" text-anchor="middle">Stage 2: Critical AEB (-7.5 m/s²)</text>
+  <text x="696.0" y="85" fill="#4ade80" font-size="11" font-weight="700" text-anchor="middle">Vehicle at Full Rest</text>
+
+  <!-- Left Y Axis (Speed km/h) -->
+  <text x="68" y="65" fill="#38bdf8" font-size="11" text-anchor="end">60 km/h</text>
+  <text x="68" y="210.0" fill="#38bdf8" font-size="11" text-anchor="end">30 km/h</text>
+  <text x="68" y="360" fill="#38bdf8" font-size="11" text-anchor="end">0 km/h</text>
+  <text x="40" y="210.0" fill="#38bdf8" font-size="12" font-weight="600" text-anchor="middle" transform="rotate(-90 40 210.0)">Speed v (km/h)</text>
+
+  <!-- Right Y Axis (Deceleration m/s^2) -->
+  <text x="862" y="65" fill="#f43f5e" font-size="11" text-anchor="start">0.0 m/s²</text>
+  <text x="862" y="193.33333333333331" fill="#f43f5e" font-size="11" text-anchor="start">-4.0 m/s²</text>
+  <text x="862" y="310.0" fill="#f43f5e" font-size="11" text-anchor="start">-7.5 m/s²</text>
+  <text x="892" y="210.0" fill="#f43f5e" font-size="12" font-weight="600" text-anchor="middle" transform="rotate(90 892 210.0)">Deceleration a (m/s²)</text>
+
+  <!-- X Axis -->
+  <text x="80" y="395" fill="#64748b" font-size="11" text-anchor="middle">0.0s</text>
+  <text x="336.66666666666663" y="395" fill="#64748b" font-size="11" text-anchor="middle">1.5s</text>
+  <text x="593.3333333333333" y="395" fill="#64748b" font-size="11" text-anchor="middle">3.0s</text>
+  <text x="850" y="395" fill="#64748b" font-size="11" text-anchor="middle">4.5s</text>
+  <text x="450.0" y="410" fill="#94a3b8" font-size="12" font-weight="600" text-anchor="middle">Elapsed Simulation Time t (s)</text>
+</svg>

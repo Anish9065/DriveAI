@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Nav-Bharat AV: Tesla FSD & Perception Suite</title>
+  
+  <!-- PWA & Google Play Store Compliance -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0b0d13">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="apple-touch-icon" href="icon-192.png">
+
+  <!-- Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="tesla-theme">
+  <!-- TOP STATUS & CONTROL BAR -->
+  <header class="tesla-top-bar">
+    <div class="top-bar-left">
+      <!-- PRND Drive Selector -->
+      <div class="gear-selector" title="Gear Selector (P / R / N / D)">
+        <button class="gear-btn" data-gear="P">P</button>
+        <button class="gear-btn" data-gear="R">R</button>
+        <button class="gear-btn" data-gear="N">N</button>
+        <button class="gear-btn active" data-gear="D">D</button>
+      </div>
+
+      <!-- Turn Signal Blinkers -->
+      <div class="blinker-controls">
+        <button class="blinker-btn" id="blink-left" title="Left Turn Signal (Press Q)">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M14 7l-5 5 5 5V7z"/></svg>
+        </button>
+        <button class="blinker-btn" id="blink-right" title="Right Turn Signal (Press E)">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M10 17l5-5-5-5v10z"/></svg>
+        </button>
+      </div>
+
+      <!-- Speed Limit Sign -->
+      <div class="speed-limit-sign">
+        <span class="sign-label">SPEED LIMIT</span>
+        <span class="sign-val">60</span>
+      </div>
+
+      <!-- Pilot Mode Toggle (Manual vs Autopilot) -->
+      <div class="pilot-mode-toggle" id="pilot-toggle-wrap">
+        <button class="pilot-btn active" id="btn-mode-autopilot" title="Autopilot FSD Engaged (Press M)">
+          <span class="pilot-icon">🤖</span>
+          <span>AUTOPILOT (FSD)</span>
+        </button>
+        <button class="pilot-btn" id="btn-mode-manual" title="Manual Drive Mode (Press M)">
+          <span class="pilot-icon">🎮</span>
+          <span>MANUAL</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Center Big Speed Display & Odometer -->
+    <div class="top-bar-center">
+      <div class="tesla-speed-display">
+        <span id="speed-number" class="speed-huge">0</span>
+        <div class="speed-meta">
+          <span class="speed-unit">KM/H</span>
+          <span class="odometer-badge" id="odometer-val">0.0 / 50.0 KM</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Actions: Seminar Demo, Environment & Fullscreen -->
+    <div class="top-bar-right">
+      <!-- Seminar Live Presentation Mode Button -->
+      <button class="btn-seminar-demo" id="btn-seminar-demo" title="Start Live Automated Seminar Demo">
+        <span class="sparkle-icon">✨</span>
+        <span id="seminar-btn-text">SEMINAR LIVE DEMO</span>
+      </button>
+
+      <!-- Environment Switcher -->
+      <div class="env-mode-toggle">
+        <button class="env-btn active" id="btn-env-sim" title="50 KM Indian Busy Road Simulator">
+          <span>🛣️ 50 KM ROAD</span>
+        </button>
+        <button class="env-btn" id="btn-env-realcam" title="Real-World Live Camera AR Drive">
+          <span class="pulse-red-dot"></span>
+          <span>🎥 REAL CAMERA</span>
+        </button>
+      </div>
+
+      <!-- Battery & Climate -->
+      <div class="battery-status">
+        <div class="battery-icon">
+          <div class="battery-fill" style="width: 84%;"></div>
+        </div>
+        <span class="battery-pct">84%</span>
+      </div>
+
+      <div class="climate-pill">21.5° ❄️</div>
+
+      <!-- Fullscreen Toggle for Projector Presentation -->
+      <button class="btn-fullscreen-toggle" id="btn-fullscreen" title="Toggle Fullscreen (F11)">⛶</button>
+    </div>
+  </header>
+
+  <!-- MAIN COCKPIT VIEWPORT -->
+  <main class="tesla-screen">
+    <!-- LEFT HALF: TESLA VISION 3D ROAD / REAL-WORLD CAMERA VIEWPORT -->
+    <section class="tesla-vision-pane">
+      <div class="vision-canvas-container">
+        <!-- 3D Simulator Canvas -->
+        <canvas id="vision-canvas"></canvas>
+
+        <!-- Real-World Camera Feed Viewport (when in Real Camera Mode) -->
+        <div class="realcam-viewport" id="realcam-viewport">
+          <img id="realcam-stream" src="" alt="Live Real-World Camera Feed" />
+          <canvas id="realcam-ar-canvas"></canvas>
+          <div class="realcam-ar-badge">
+            <span class="pulse-rec"></span>
+            <span>REAL-WORLD AI VISION DRIVE (YOLOv8-IDD)</span>
+          </div>
+        </div>
+
+        <!-- Floating Autopilot / AEB Warning Banner -->
+        <div class="floating-ap-banner" id="ap-banner">
+          <div class="ap-icon" id="ap-icon">⚡</div>
+          <div class="ap-details">
+            <strong id="ap-status-title">NAVIGATE ON AUTOPILOT (FSD BETA)</strong>
+            <span id="ap-status-sub">50 KM Indian Highway • Adaptive path planning active</span>
+          </div>
+          <div class="ap-ttc">
+            <span>TTC</span>
+            <strong id="ap-ttc-value">SAFE</strong>
+          </div>
+        </div>
+
+        <!-- Seminar Presentation Floating Narration Banner -->
+        <div class="seminar-narration-banner" id="seminar-banner">
+          <div class="narration-badge">🎙️ SEMINAR DEMO ACTIVE</div>
+          <div class="narration-text" id="seminar-narration-text">
+            Initializing autonomous vehicle AI pipeline on Indian road conditions...
+          </div>
+        </div>
+
+        <!-- Milestone & Road Sign Banner (50 km Indian Road) -->
+        <div class="road-milestone-banner" id="road-milestone-banner">
+          <div class="milestone-badge">📍 NH-44 BHARAT HIGHWAY</div>
+          <div class="milestone-text" id="milestone-text">Km 1.2 • Approaching Busy Market & Cattle Zone</div>
+        </div>
+
+        <!-- Picture-In-Picture: Live Camera Preview in Simulator Mode -->
+        <div class="camera-pip" id="camera-pip">
+          <div class="pip-header">
+            <div class="pip-title">
+              <span class="rec-dot"></span>
+              <span>YOLOv8 RADAR STREAM</span>
+            </div>
+            <button class="btn-pip-toggle" id="btn-toggle-pip" title="Toggle Fullscreen">⛶</button>
+          </div>
+          <div class="pip-viewport">
+            <img id="pip-camera-img" src="" alt="Webcam Feed" />
+            <div class="pip-stats">
+              <span id="pip-fps-tag">60 FPS</span>
+              <span id="pip-model-tag">YOLOv8-IDD</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RIGHT HALF: TESLA CONTROLS, ROUTE GPS & SMART VEHICLE CONSOLE -->
+    <aside class="tesla-controls-pane">
+      <!-- 1. GPS ROUTE NAVIGATION CARD (50 KM INDIAN CORRIDOR) -->
+      <div class="tesla-card gps-card">
+        <div class="card-header">
+          <h3>ROUTE NAVIGATION (50.0 KM INDIAN HIGHWAY)</h3>
+          <span class="badge-route">ACTIVE ROUTE</span>
+        </div>
+        <div class="gps-route-row">
+          <div class="gps-turn-icon">↱</div>
+          <div class="gps-instructions">
+            <strong id="gps-next-turn">In 850m: Avoid Stray Cattle in Right Lane</strong>
+            <span>NH-44 Express Corridor • Speed Advisory: 45 km/h</span>
+          </div>
+          <div class="gps-eta">
+            <strong id="gps-dist-rem">48.8 km</strong>
+            <span id="gps-time-rem">36 min</span>
+          </div>
+        </div>
+        <!-- Progress Bar along 50 km route -->
+        <div class="route-progress-wrap">
+          <div class="route-progress-bar" id="route-progress-fill" style="width: 2.4%;"></div>
+        </div>
+      </div>
+
+      <!-- 2. SPEED & ACCELERATION CONTROL CARD -->
+      <div class="tesla-card">
+        <div class="card-header">
+          <h3>SPEED & ACCELERATION DYNAMICS</h3>
+          <span class="badge-tesla" id="lbl-drive-mode">PLAID (FAST)</span>
+        </div>
+
+        <!-- Speed Stepper Buttons -->
+        <div class="speed-stepper-wrap">
+          <button class="btn-step" id="btn-speed-minus" title="Decrease Speed (-5 km/h)">−</button>
+          <div class="speed-stepper-display">
+            <span class="stepper-val" id="target-speed-val">50</span>
+            <span class="stepper-sub">SET CRUISE SPEED (KM/H)</span>
+          </div>
+          <button class="btn-step" id="btn-speed-plus" title="Increase Speed (+5 km/h)">+</button>
+        </div>
+
+        <!-- Quick Speed Presets -->
+        <div class="accel-modes">
+          <button class="mode-pill" data-speed="20" data-mode="CHILL">CHILL (20)</button>
+          <button class="mode-pill" data-speed="40" data-mode="STANDARD">STANDARD (40)</button>
+          <button class="mode-pill active" data-speed="65" data-mode="PLAID">PLAID / FAST (65)</button>
+          <button class="mode-pill btn-stop-pill" data-speed="0" data-mode="STOP">STOP</button>
+        </div>
+
+        <!-- Tesla Power vs Regen Meter -->
+        <div class="power-meter-wrap">
+          <div class="power-meter-labels">
+            <span>REGEN BRAKE</span>
+            <span>POWER OUTPUT</span>
+          </div>
+          <div class="power-track">
+            <div class="power-bar-center"></div>
+            <div class="power-fill power-regen" id="bar-regen"></div>
+            <div class="power-fill power-output" id="bar-power"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. SEMINAR AI BENCHMARK METRICS (SIH JURY DISPLAY) -->
+      <div class="tesla-card benchmark-card">
+        <div class="card-header">
+          <h3>AI PERCEPTION & SAFETY BENCHMARKS</h3>
+          <span class="badge-safe">SIH EVALUATION</span>
+        </div>
+        <div class="benchmark-grid">
+          <div class="bm-cell">
+            <span class="bm-label">Model Engine</span>
+            <span class="bm-val text-blue">YOLOv8n-IDD</span>
+          </div>
+          <div class="bm-cell">
+            <span class="bm-label">Inference Latency</span>
+            <span class="bm-val text-green" id="bm-latency">14.6 ms</span>
+          </div>
+          <div class="bm-cell">
+            <span class="bm-label">Detection mAP@50</span>
+            <span class="bm-val text-blue">89.4%</span>
+          </div>
+          <div class="bm-cell">
+            <span class="bm-label">AEB Stop Success</span>
+            <span class="bm-val text-green">99.6%</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. AUTOPILOT & ACTIVE SAFETY SYSTEM -->
+      <div class="tesla-card">
+        <div class="card-header">
+          <h3>ACTIVE SAFETY & PILOT ASSIST</h3>
+          <span class="badge-safe">ARMED</span>
+        </div>
+
+        <div class="toggle-list">
+          <div class="toggle-row">
+            <div class="toggle-info">
+              <strong>Full Self-Driving (FSD Beta)</strong>
+              <span>Adaptive steering around cows, rickshaws, and potholes</span>
+            </div>
+            <label class="switch">
+              <input type="checkbox" id="toggle-fsd" checked>
+              <span class="slider"></span>
+            </label>
+          </div>
+
+          <div class="toggle-row">
+            <div class="toggle-info">
+              <strong>Adaptive Cruise Control (ACC)</strong>
+              <span>Smooth deceleration behind slower vehicles</span>
+            </div>
+            <label class="switch">
+              <input type="checkbox" id="toggle-acc" checked>
+              <span class="slider"></span>
+            </label>
+          </div>
+
+          <div class="toggle-row">
+            <div class="toggle-info">
+              <strong>Automatic Emergency Braking (AEB)</strong>
+              <span>Slam brakes if collision imminent (TTC &lt; 1.4s)</span>
+            </div>
+            <label class="switch">
+              <input type="checkbox" id="toggle-aeb" checked>
+              <span class="slider"></span>
+            </label>
+          </div>
+
+          <div class="toggle-row">
+            <div class="toggle-info">
+              <strong>Audio Pilot Chimes</strong>
+              <span>Tesla tone on Autopilot engage, lane alert & AEB alarm</span>
+            </div>
+            <label class="switch">
+              <input type="checkbox" id="toggle-sound" checked>
+              <span class="slider"></span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5. DETECTED INDIAN OBSTACLES RADAR -->
+      <div class="tesla-card">
+        <div class="card-header">
+          <h3>PERCEPTION RADAR (INDIAN ROAD TARGETS)</h3>
+          <span class="radar-live-dot">● SCANNING</span>
+        </div>
+        <div class="radar-obstacle-list" id="radar-list">
+          <!-- Populated dynamically -->
+        </div>
+      </div>
+
+      <!-- 6. MANUAL DRIVE PAD & CONTROLS -->
+      <div class="tesla-card drive-pad-card">
+        <div class="card-header">
+          <h3>MANUAL DRIVING CONTROLS</h3>
+          <span class="badge-keyboard">KEYS: W A S D / ARROWS</span>
+        </div>
+
+        <div class="drive-pad-grid">
+          <div></div>
+          <button class="pad-key" id="pad-w">▲ FAST (W)</button>
+          <div></div>
+
+          <button class="pad-key" id="pad-a">◄ LEFT (A)</button>
+          <button class="pad-key pad-center" id="pad-center">● CENTER</button>
+          <button class="pad-key" id="pad-d">RIGHT (D) ►</button>
+
+          <div></div>
+          <button class="pad-key pad-brake" id="pad-s">▼ SLOW (S)</button>
+          <div></div>
+        </div>
+
+        <button class="btn-tesla-emergency" id="btn-emergency-brake">
+          🚨 EMERGENCY STOP (SPACEBAR)
+        </button>
+      </div>
+
+      <!-- 7. TESLA BOTTOM TOUCHSCREEN DOCK -->
+      <div class="tesla-dock">
+        <button class="dock-btn active" id="btn-headlights" title="Toggle Headlights">💡</button>
+        <button class="dock-btn" id="btn-lock" title="Lock / Unlock Doors">🔒</button>
+        <button class="dock-btn" id="btn-hazard" title="Hazard Flashers">⚠️</button>
+        <button class="dock-btn" id="btn-horn" title="Sound Horn">📯</button>
+        <button class="dock-btn" id="btn-camera" title="Snapshot AI Detection">📸</button>
+        <button class="dock-btn" id="btn-reset-route" title="Restart 50 km Route">🔄</button>
+      </div>
+    </aside>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

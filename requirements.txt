@@ -1,0 +1,34 @@
+# =============================================================
+# DriveAI: Autonomous Vehicle Core Dependencies
+# Adaptive Trajectory Planning & Non-Linear Control
+# in Unstructured Indian Driving Conditions
+# =============================================================
+# Install with:  pip install -r requirements.txt
+# =============================================================
+
+# ---------- Core ML / Deep Learning ----------
+ultralytics>=8.0.0          # YOLOv8 perception & obstacle detection
+torch>=2.0.0                # PyTorch deep learning backend
+torchvision>=0.15.0         # Vision utilities for PyTorch
+
+# ---------- Computer Vision & Numerical Processing ----------
+opencv-python>=4.8.0        # Video streaming, camera feed, and bounding boxes
+numpy>=1.24.0               # Numerical arrays & vector math
+Pillow>=10.0.0              # Image manipulation & frame encoding
+scipy>=1.11.0               # Spline interpolation & Frenet trajectory optimization
+matplotlib>=3.7.0           # Path visualization & telemetry metrics
+
+# ---------- Web API & Real-Time Mission Control ----------
+fastapi>=0.100.0            # High-performance async REST API
+uvicorn[standard]>=0.22.0   # Production ASGI server & event streaming
+pydantic>=2.0.0             # Data validation & schema serialization
+
+# ---------- ONNX Runtime (Inference Acceleration) ----------
+onnx>=1.14.0                # ONNX model interoperability
+onnxruntime>=1.15.0         # Fast inference engine for CPU/GPU
+
+# ---------- Telemetry Database (MongoDB with SQLite Fallback) ----------
+pymongo>=4.5.0              # Rich obstacle, Frenet trajectory & GeoJSON hazard telemetry
+
+# ---------- Dataset & Utilities ----------
+tqdm>=4.65.0                # Progress tracking for dataset processing
