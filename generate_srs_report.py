@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """
 DriveAI — Software Requirements Specification (SRS) & Engineering Technical Report
-Document Reference: LPU/CSE/AUTONOMOUS/2025/CA3/SRS-494-0984
+Document Reference: LPU/CSE/NOSQL/2025/CA2/SRS-494-0984
 Authored by: Anish Kumar (Registration No: 12326669)
-Course: CSE494 — Advanced Project
-Continuous Assessment 3, Spring 2025
+Course: Intelligent NoSQL Database
+Continuous Assessment 2, Spring 2025
 Exact Length: 30 Pages Publication Specification
 """
 
@@ -299,7 +299,7 @@ class DocumentLayout:
         )
         self.pdf.draw_text(
             PAGE_WIDTH - MARGIN_RIGHT, PAGE_HEIGHT - 38,
-            "CSE494 Advanced Project",
+            "Intelligent NoSQL Database",
             font='Times-Roman', size=8.5, rgb=(0.4, 0.4, 0.4), align='right'
         )
         self.pdf.draw_line(
@@ -559,14 +559,13 @@ def generate_document_pass(page_map=None, tracker=None):
 
     pdf.draw_text(cx, 570, "Software Requirements Specification", font='Times-Bold', size=14, align='center')
 
-    pdf.draw_text(cx, 480, "Course Code: CSE494", font='Times-Bold', size=13.5, align='center')
-    pdf.draw_text(cx, 457, "Course Name: Autonomous Driving & Robotics", font='Times-Bold', size=13.5, align='center')
+    pdf.draw_text(cx, 470, "Course Name: Intelligent NoSQL Database", font='Times-Bold', size=14, align='center')
 
     pdf.draw_text(cx, 360, "Anish Kumar", font='Times-Bold', size=13.5, align='center')
     pdf.draw_text(cx, 327, "Registration Number: 12326669", font='Times-Bold', size=13.5, align='center')
 
     pdf.draw_text(cx, 165, "Prepared for", font='Times-Roman', size=11.5, align='center')
-    pdf.draw_text(cx, 147, "Continuous Assessment 3", font='Times-Roman', size=11.5, align='center')
+    pdf.draw_text(cx, 147, "Continuous Assessment 2", font='Times-Roman', size=11.5, align='center')
     pdf.draw_text(cx, 129, "Spring 2025", font='Times-Roman', size=11.5, align='center')
     pdf.end_page()
 
@@ -1808,8 +1807,8 @@ def generate_document_pass(page_map=None, tracker=None):
     doc.paragraph(
         "Project Topic: Autonomous Vehicle Motion Planning and Kinodynamic Control in Unstructured Rural Environments.\n"
         "Approved by: Academic Project Evaluation Committee & Autonomous Driving Systems Research Faculty.\n"
-        "Approval Reference: LPU/CSE/AUTONOMOUS/2025/CA3/APPROVAL-494-0984\n"
-        "Status: FORMALLY APPROVED AND CERTIFIED for Continuous Assessment 3, Spring 2025."
+        "Approval Reference: LPU/CSE/NOSQL/2025/CA2/APPROVAL-494-0984\n"
+        "Status: FORMALLY APPROVED AND CERTIFIED for Continuous Assessment 2, Spring 2025."
     )
 
     doc.heading_1("8. Client Location Proof", "SEC_8")
@@ -1830,7 +1829,7 @@ def generate_document_pass(page_map=None, tracker=None):
     doc.paragraph(
         "Official University Registration & Project Confirmation Notice:\n"
         "To: anish.kumar.12326669@lpu.in | From: project.coordination.cse@lpu.in\n"
-        "Subject: Advanced Project CSE494 - Continuous Assessment 3 Confirmation - DriveAI Autonomous Platform\n"
+        "Subject: Intelligent NoSQL Database - Continuous Assessment 2 Confirmation - DriveAI Autonomous Platform\n"
         "Acknowledgement: 'This email confirms the submission and evaluation readiness of Project DriveAI submitted by Anish Kumar (Reg: 12326669).'"
     )
 
@@ -1846,7 +1845,7 @@ def generate_document_pass(page_map=None, tracker=None):
         [
             ["Source Code Repository", "github.com/Anish9065/DriveAI", "GitHub Version Control", "VERIFIED / PUBLIC"],
             ["Live Deployment", "driveai-autonomous.vercel.app", "Vercel Edge Network", "ACTIVE / ONLINE"],
-            ["Academic Client Approval", "LPU/CSE/AUTONOMOUS/2025/CA3/APPROVAL-494-0984", "CSE Project Committee", "FORMALLY APPROVED"],
+            ["Academic Client Approval", "LPU/CSE/NOSQL/2025/CA2/APPROVAL-494-0984", "CSE Project Committee", "FORMALLY APPROVED"],
             ["Institutional Location", "31.2536 deg N, 75.7037 deg E (LPU Campus)", "Lovely Professional Univ.", "VERIFIED PHYSICAL HOST"],
             ["Evaluation Transaction", "TXN-SIH-2025-LPU-CSE494-12326669", "LPU Academic Accounts", "PAID & VALIDATED"],
             ["Official Email Acknowledgement", "project.coordination.cse@lpu.in", "Head of Department, CSE", "CONFIRMED & FILED"],
@@ -1860,7 +1859,7 @@ def generate_document_pass(page_map=None, tracker=None):
     doc.paragraph(
         "Declaration of Academic Integrity & Compliance: This Software Requirements Specification and the accompanying DriveAI "
         "autonomous motion planning, perception, and kinodynamic control codebase have been authored and verified by Anish Kumar (Reg: 12326669) "
-        "for the Advanced Project (Course Code: CSE494, Continuous Assessment 3), Department of Computer Science and Engineering, "
+        "for Intelligent NoSQL Database (Continuous Assessment 2), Department of Computer Science and Engineering, "
         "Lovely Professional University. All primary deliverables, including the open-source GitHub repository, deployed web application, "
         "and client verification artifacts, conform to institutional project report guidelines and IEEE/ISO software engineering standards."
     )
